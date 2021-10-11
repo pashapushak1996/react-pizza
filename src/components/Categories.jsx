@@ -1,12 +1,12 @@
 import { useState } from "react";
 
-const Category = ({ category, setActiveCategory, index, activeCategoryIndex, onClick }) => {
+const Category = ({ category, setActiveCategory, index, activeCategoryIndex }) => {
 
     return <li className={ activeCategoryIndex === index ? 'active' : '' }
                onClick={ () => {
                    setActiveCategory(index);
                } }>{ category }</li>
-}
+};
 
 const Categories = ({ items }) => {
 
@@ -15,7 +15,11 @@ const Categories = ({ items }) => {
     return (
         <div className="categories">
             <ul>
+                <li className={ activeCategoryIndex === null ? 'active' : '' }
+                    onClick={ () => setActiveCategory(null) }>Все
+                </li>
                 { items.map((category, index) => <Category
+                    key={ `${ category }_${ index }` }
                     setActiveCategory={ setActiveCategory }
                     activeCategoryIndex={ activeCategoryIndex }
                     category={ category }
