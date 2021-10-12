@@ -1,43 +1,36 @@
 import { useEffect, useRef, useState } from "react";
 
-const SortOption = ({ activeItemIndex, index, option, setActiveItemIndex }) => {
-    return <li
-        className={ activeItemIndex === index ? 'active' : '' }
-        onClick={ () => setActiveItemIndex(index) }>
-        { option }
-    </li>
-}
 
-const SortMenu = ({ sortBy }) => {
-    const [activeItemIndex, setActiveItemIndex] = useState(0);
+const SortMenu = ({ items }) => {
+    const [activeItem, setActiveItem] = useState(0);
 
     const [openedMenu, setOpenedMenu] = useState(false);
 
-    const toggleOpenedMenu = () => {
-        setOpenedMenu(!openedMenu);
-    };
+    const selectedItem = items[activeItem];
 
     const sortRef = useRef();
+
+    const onSelectItem = (index) => {
+        setOpenedMenu(!openedMenu);
+        setActiveItem(index);
+    };
 
     const handleOutsideClick = (e) => {
         if (!e.path.includes(sortRef.current)) {
             setOpenedMenu(false);
-        } else {
-            setOpenedMenu(true);
         }
     };
 
 
     useEffect(() => {
         document.body.addEventListener('click', handleOutsideClick);
-
     }, []);
 
     return (
         <div ref={ sortRef } className="sort">
             <div className="sort__label">
                 <svg
-                    style={ { transform: openedMenu ? '' : 'rotate(180deg)' } }
+                    className={ openedMenu ? 'rotate' : '' }
                     width="10"
                     height="6"
                     viewBox="0 0 10 6"
@@ -50,17 +43,17 @@ const SortMenu = ({ sortBy }) => {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span>{ sortBy[activeItemIndex] }</span>
+                <span onClick={ () => setOpenedMenu(!openedMenu) }>{ selectedItem }</span>
             </div>
             { openedMenu && <div className="sort__popup">
                 <ul>
-                    { sortBy && sortBy.map((option, index) =>
-                        <SortOption option={ option }
-                                    index={ index }
-                                    key={ `${ option }_${ index }` }
-                                    activeItemIndex={ activeItemIndex }
-                                    toggleOpenedMenu={ toggleOpenedMenu }
-                                    setActiveItemIndex={ setActiveItemIndex }/>) }
+                    { items && items.map((option, index) =>
+                        <li
+                            key={ `${ option }_${ index }` }
+                            className={ activeItem === index ? 'active' : '' }
+                            onClick={ () => onSelectItem(index) }>
+                            { option }
+                        </li>) }
                 </ul>
             </div> }
         </div>
