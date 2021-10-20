@@ -348,6 +348,7 @@ a {
   cursor: pointer;
   font-weight: 600;
   font-size: 14px;
+  transition: transform 0.5ms ease-in-out;
   -webkit-touch-callout: none;
   /* iOS Safari */
   -webkit-user-select: none;
@@ -362,11 +363,18 @@ a {
   /* Non-prefixed version, currently
                supported by Chrome, Opera and Firefox */
 }
+.pizza-block__selector ul li:hover {
+  transform: scale(1.05);
+}
 .pizza-block__selector ul li.active {
   background: #ffffff;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
   border-radius: 5px;
   cursor: auto;
+}
+.pizza-block__selector ul li.disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 .pizza-block__bottom {
   display: flex;

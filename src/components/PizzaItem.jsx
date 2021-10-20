@@ -1,10 +1,15 @@
 import React, { useState } from "react";
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+
 
 const PizzaItem = ({ name, imageUrl, types, price, sizes }) => {
-    const [activeSize, setActiveSize] = useState(0);
-    const [activeType, setActiveType] = useState(0);
 
     const pizzaTypes = ['тонкое', 'традиционное'];
+    const pizzaSizes = [26, 30, 40];
+
+    const [activeSize, setActiveSize] = useState(sizes[0]);
+    const [activeType, setActiveType] = useState(types[0]);
 
     return (
         <div className="pizza-block">
@@ -16,16 +21,22 @@ const PizzaItem = ({ name, imageUrl, types, price, sizes }) => {
             <h4 className="pizza-block__title">{ name }</h4>
             <div className="pizza-block__selector">
                 <ul>
-                    { types.map((type, index) => <li
+                    { pizzaTypes.map((type, index) => <li
                         key={ `${ type }_${ index }` }
-                        className={ activeType === index ? 'active' : '' }
+                        className={ classNames({
+                            active: activeType === index,
+                            disabled: !types.includes(index)
+                        }) }
                         onClick={ () => setActiveType(index) }>{ pizzaTypes[index] }</li>) }
                 </ul>
                 <ul>
-                    { sizes.map((size, index) => <li
+                    { pizzaSizes.map((size, index) => <li
                         key={ `${ size }_${ index }` }
-                        className={ activeSize === index ? 'active' : '' }
-                        onClick={ () => setActiveSize(index) }>{ size }</li>) }
+                        className={ classNames({
+                            active: activeSize === size,
+                            disabled: !sizes.includes(size)
+                        }) }
+                        onClick={ () => setActiveSize(size) }>{ size } см.</li>) }
                 </ul>
             </div>
             <div className="pizza-block__bottom">
@@ -50,6 +61,14 @@ const PizzaItem = ({ name, imageUrl, types, price, sizes }) => {
         </div>
     );
 };
+
+PizzaItem.propTypes = {
+    name: PropTypes.string.isRequired,
+    imageUrl: PropTypes.string.isRequired,
+    types: PropTypes.array.isRequired,
+    price: PropTypes.number.isRequired,
+    sizes: PropTypes.array.isRequired
+}
 
 export default PizzaItem;
 

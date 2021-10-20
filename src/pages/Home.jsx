@@ -1,18 +1,11 @@
+import { useDispatch } from "react-redux";
+import PropTypes from 'prop-types'
+
 import { Categories, PizzaItem, SortMenu } from "../components";
-import { pizzaService } from "../services";
-import { useEffect, useState } from "react";
+import { addCartItem } from "../store/action-creators";
 
-const Home = () => {
-    const [pizzas, setPizzas] = useState([]);
-
-    const fetchData = async () => {
-        const { pizzas } = await pizzaService.getAllPizzas();
-        setPizzas(pizzas);
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, []);
+const Home = ({ items }) => {
+    const dispatch = useDispatch();
 
     return (
         <div className="container">
@@ -27,11 +20,16 @@ const Home = () => {
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
-                { pizzas.map((obj) => <PizzaItem key={ obj.id } { ...obj }/>) }
+                { items.map((obj) => <PizzaItem onSelectItem={ () => dispatch(addCartItem) }
+                                                key={ obj.id } { ...obj }/>) }
             </div>
         </div>
     );
 };
+
+Home.propTypes = {
+    items: PropTypes.array.isRequired
+}
 
 export default Home;
 
