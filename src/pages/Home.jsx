@@ -20,8 +20,9 @@ const Home = ({ items }) => {
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
-                { items.map((obj) => <PizzaItem onSelectItem={ () => dispatch(addCartItem) }
-                                                key={ obj.id } { ...obj }/>) }
+                { items.map((obj) => <PizzaItem
+                    onSelectItem={ (item) => dispatch(addCartItem(item)) }
+                    key={ obj.id } { ...obj }/>) }
             </div>
         </div>
     );

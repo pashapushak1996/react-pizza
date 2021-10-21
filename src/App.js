@@ -12,8 +12,7 @@ function App() {
 
     //Todo Зробити додавання в корзину через редакс
 
-
-    const pizzas = useSelector(({ pizzaReducer }) => pizzaReducer.pizzas)
+    const pizzas = useSelector(({ pizzaReducer }) => pizzaReducer.pizzas);
 
     const fetchData = async () => {
         const response = await fetch('http://localhost:3000/db.json');

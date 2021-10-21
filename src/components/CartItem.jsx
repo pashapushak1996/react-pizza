@@ -1,18 +1,21 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
-const CartItem = () => {
+const CartItem = ({ count, name, imageUrl, type, size }) => {
+
+
     return (
         <div className="cart__item">
             <div className="cart__item-img">
                 <img
                     className="pizza-block__image"
-                    src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
+                    src={ imageUrl }
                     alt="Pizza"
                 />
             </div>
             <div className="cart__item-info">
-                <h3>Сырный цыпленок</h3>
-                <p>тонкое тесто, 26 см.</p>
+                <h3>{ name }</h3>
+                <p>{ type },{ size } см.</p>
             </div>
             <div className="cart__item-count">
                 <div className="button button--outline button--circle cart__item-count-minus">
@@ -27,7 +30,7 @@ const CartItem = () => {
                     </svg>
 
                 </div>
-                <b>2</b>
+                <b>{ count }</b>
                 <div className="button button--outline button--circle cart__item-count-plus">
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
@@ -61,6 +64,14 @@ const CartItem = () => {
         </div>
     );
 };
+
+CartItem.propTypes = {
+    name: PropTypes.string.isRequired,
+    imageUrl: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
+    size: PropTypes.number.isRequired
+}
 
 export default CartItem;
 

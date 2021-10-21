@@ -3,13 +3,28 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 
-const PizzaItem = ({ name, imageUrl, types, price, sizes }) => {
+const PizzaItem = ({ id, onSelectItem, name, imageUrl, types, price, sizes }) => {
 
+    const [count, setCount] = useState(1);
     const pizzaTypes = ['тонкое', 'традиционное'];
     const pizzaSizes = [26, 30, 40];
 
     const [activeSize, setActiveSize] = useState(sizes[0]);
     const [activeType, setActiveType] = useState(types[0]);
+
+    const onClickAdd = () => {
+        setCount(prevState => ++prevState);
+        onSelectItem({
+            id,
+            name,
+            imageUrl,
+            price,
+            size: activeSize,
+            type: pizzaTypes[activeType],
+            count
+        })
+    };
+
 
     return (
         <div className="pizza-block">
@@ -41,7 +56,7 @@ const PizzaItem = ({ name, imageUrl, types, price, sizes }) => {
             </div>
             <div className="pizza-block__bottom">
                 <div className="pizza-block__price">от { price } ₽</div>
-                <div className="button button--outline button--add">
+                <div onClick={ onClickAdd } className="button button--outline button--add">
                     <svg
                         width="12"
                         height="12"
