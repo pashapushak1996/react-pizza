@@ -5,14 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Header } from "./components";
 import Cart from "./pages/Cart";
 import Home from "./pages/Home";
-import { setPizzas } from "./store/action-creators";
+import { setPizzas } from "./redux";
 
 function App() {
     const dispatch = useDispatch();
 
-    //Todo Зробити додавання в корзину через редакс
-
-    const pizzas = useSelector(({ pizzaReducer }) => pizzaReducer.pizzas);
+    const { pizzas } = useSelector(({ pizzas }) => pizzas);
 
     const fetchData = async () => {
         const response = await fetch('http://localhost:3000/db.json');

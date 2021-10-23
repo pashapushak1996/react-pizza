@@ -11,16 +11,31 @@ export const cartReducer = (state = initialState, action) => {
         case ADD_CART_ITEM:
             const foundItem = state.cartItems.find((item) => item.id === action.payload.id);
 
+
             if (foundItem) {
+
+                if (foundItem.type !== action.payload.type && foundItem.size !== action.payload.size) {
+                    return { ...state, cartItems: [...state.cartItems, action.payload] };
+                }
 
                 return {
                     ...state, cartItems: state.cartItems.reduce((acc, curr) => {
-                        if (curr.id === foundItem.id) {
-                            acc.push({ ...foundItem, count: foundItem.count + 1 })
+                        if (curr.id === foundItem.id && foundItem.type === action.payload.type && foundItem.size === action.payload.size) {
+                            acc.push({
+                                ...foundItem,
+                                count: foundItem.count + 1,
+                                price: curr.price + foundItem.price
+                            });
+                            return acc;
                         }
+
+                        acc.push(curr);
+
                         return acc;
                     }, [])
                 }
+
+
             }
 
             return { ...state, cartItems: [...state.cartItems, action.payload] };

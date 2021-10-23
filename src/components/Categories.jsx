@@ -1,19 +1,22 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setCategory } from "../redux/";
 
 const Categories = ({ items }) => {
-    const [activeCategory, setActiveCategory] = useState(null);
+    const { activeCategory } = useSelector(({ filters }) => filters);
+
+    const dispatch = useDispatch();
+
+    const toggleCategory = (category) => {
+        dispatch(setCategory(category));
+    };
 
     return (
         <div className="categories">
             <ul>
-                <li className={ activeCategory === null ? 'active' : '' }
-                    onClick={ () => setActiveCategory(null) }>Все
-                </li>
-
                 { items.map((category, index) => <li
                     key={ `${ category }_${ index }` }
                     className={ activeCategory === index ? 'active' : '' }
-                    onClick={ () => setActiveCategory(index) }>{ category }</li>) }
+                    onClick={ () => toggleCategory(index) }>{ category }</li>) }
             </ul>
         </div>
     );

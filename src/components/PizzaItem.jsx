@@ -70,7 +70,7 @@ const PizzaItem = ({ id, onSelectItem, name, imageUrl, types, price, sizes }) =>
                         />
                     </svg>
                     <span>Добавить</span>
-                    <i>2</i>
+                    <i>{ count }</i>
                 </div>
             </div>
         </div>

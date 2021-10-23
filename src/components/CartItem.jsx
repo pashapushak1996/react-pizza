@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
-const CartItem = ({ count, name, imageUrl, type, size }) => {
+const CartItem = ({ count, name, imageUrl, type, size,price }) => {
 
 
     return (
@@ -45,7 +45,7 @@ const CartItem = ({ count, name, imageUrl, type, size }) => {
                 </div>
             </div>
             <div className="cart__item-price">
-                <b>770 ₽</b>
+                <b>{price} ₽</b>
             </div>
             <div className="cart__item-remove">
                 <div className="button button--outline button--circle">

@@ -1,18 +1,24 @@
 import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSortBy } from "../redux";
 
 
 const SortMenu = ({ items }) => {
-    const [activeItem, setActiveItem] = useState(0);
+
+    const dispatch = useDispatch();
 
     const [openedMenu, setOpenedMenu] = useState(false);
 
-    const selectedItem = items[activeItem];
+    const { sortBy } = useSelector(({ filters }) => filters);
+
+    const selectedItem = items.find((item) => item.type === sortBy);
+
 
     const sortRef = useRef();
 
-    const onSelectItem = (index) => {
+    const onSelectItem = (name) => {
         setOpenedMenu(!openedMenu);
-        setActiveItem(index);
+        dispatch(setSortBy(name));
     };
 
     const handleOutsideClick = (e) => {
@@ -24,6 +30,7 @@ const SortMenu = ({ items }) => {
 
     useEffect(() => {
         document.body.addEventListener('click', handleOutsideClick);
+        return document.body.removeEventListener('click', handleOutsideClick);
     }, []);
 
     return (
@@ -43,17 +50,18 @@ const SortMenu = ({ items }) => {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={ () => setOpenedMenu(!openedMenu) }>{ selectedItem }</span>
+                <span onClick={ () => setOpenedMenu(!openedMenu) }>{ selectedItem.name }</span>
             </div>
             { openedMenu && <div className="sort__popup">
                 <ul>
                     { items && items.map((option, index) =>
                         <li
-                            key={ `${ option }_${ index }` }
-                            className={ activeItem === index ? 'active' : '' }
-                            onClick={ () => onSelectItem(index) }>
-                            { option }
-                        </li>) }
+                            key={ `${ option.type }_${ index }` }
+                            className={ sortBy === option.type ? 'active' : '' }
+                            onClick={ () => onSelectItem(option.type) }>
+                            { option.name }
+                        </li>
+                    ) }
                 </ul>
             </div> }
         </div>

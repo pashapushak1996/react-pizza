@@ -1,0 +1,7 @@
+const SET_CATEGORY = "SET_CATEGORY";
+const SET_SORT_BY = "SET_SORT_BY";
+
+export {
+    SET_CATEGORY,
+    SET_SORT_BY
+};

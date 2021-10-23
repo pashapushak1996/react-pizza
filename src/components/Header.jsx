@@ -5,7 +5,8 @@ import Button from "./Button";
 import { useSelector } from "react-redux";
 
 const Header = () => {
-    const cartItems = useSelector(({ cartReducer }) => cartReducer.cartItems);
+    const { cartItems } = useSelector(({ cart }) => cart);
+
     const price = cartItems.reduce((acc, curr) => acc + curr.price, 0);
 
     return (

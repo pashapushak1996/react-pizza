@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import PropTypes from 'prop-types'
 
 import { Categories, PizzaItem, SortMenu } from "../components";
-import { addCartItem } from "../store/action-creators";
+import { addCartItem } from "../redux";
 
 const Home = ({ items }) => {
     const dispatch = useDispatch();
@@ -11,12 +11,17 @@ const Home = ({ items }) => {
         <div className="container">
             <div className="content__top">
                 <Categories items={ [
+                    'Все',
                     'Мясные',
                     'Вегетарианская',
                     'Гриль',
                     'Острые',
                     'Закрытые'] }/>
-                <SortMenu items={ ['популярности', 'цене', 'алфавиту'] }/>
+                <SortMenu items={ [
+                    { name: 'популярности', type: 'popular' },
+                    { name: 'цене', type: 'price' },
+                    { name: 'алфавиту', type: 'alphabet' }
+                ] }/>
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">

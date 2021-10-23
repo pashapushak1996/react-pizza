@@ -4,7 +4,7 @@ const initialState = {
     pizzas: []
 };
 
-export const pizzaReducer = (state = initialState, action) => {
+export const pizzasReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_PIZZAS: {
             return { ...state, pizzas: action.payload }
