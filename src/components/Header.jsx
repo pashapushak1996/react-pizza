@@ -1,10 +1,10 @@
 import { NavLink } from "react-router-dom";
-
-import logoSrc from "../assets/img/pizza-logo.svg";
-import Button from "./Button";
 import { useSelector } from "react-redux";
 
-const Header = () => {
+import logoSrc from "../assets/img/pizza-logo.svg";
+import { Button } from "./Button";
+
+export const Header = () => {
     const { cartItems } = useSelector(({ cart }) => cart);
 
     const price = cartItems.reduce((acc, curr) => acc + curr.price, 0);
@@ -63,7 +63,5 @@ const Header = () => {
         </div>
     );
 };
-
-export default Header;
 
 

@@ -1,7 +1,7 @@
 import { CartItem } from "../components";
 import { useSelector } from "react-redux";
 
-const Cart = () => {
+export const Cart = () => {
     const { cartItems } = useSelector(({ cart }) => cart);
 
     return (
@@ -65,7 +65,5 @@ const Cart = () => {
         </div>
     );
 };
-
-export default Cart;
 
 

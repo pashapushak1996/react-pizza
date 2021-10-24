@@ -1,13 +1,12 @@
-import { useDispatch, useSelector } from "react-redux";
-import { setCategory } from "../redux/";
+import PropTypes from 'prop-types';
+import React, { useState } from "react";
 
-const Categories = ({ items }) => {
-    const { activeCategory } = useSelector(({ filters }) => filters);
+export const Categories = React.memo(({ items, onSelectCategory }) => {
+    const [activeCategory, setActiveCategory] = useState(0);
 
-    const dispatch = useDispatch();
-
-    const toggleCategory = (category) => {
-        dispatch(setCategory(category));
+    const toggleCategory = (categoryIndex) => {
+        setActiveCategory(categoryIndex);
+        onSelectCategory(categoryIndex);
     };
 
     return (
@@ -20,8 +19,10 @@ const Categories = ({ items }) => {
             </ul>
         </div>
     );
-};
+});
 
-export default Categories;
+Categories.propTypes = {
+    items: PropTypes.array
+};
 
 

@@ -1,24 +1,19 @@
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setSortBy } from "../redux";
+import React, { useEffect, useRef, useState } from "react";
 
+export const SortMenu = React.memo(({ items, onSelectSortType }) => {
 
-const SortMenu = ({ items }) => {
-
-    const dispatch = useDispatch();
+    const [activeItem, setActiveItem] = useState(0);
 
     const [openedMenu, setOpenedMenu] = useState(false);
 
-    const { sortBy } = useSelector(({ filters }) => filters);
-
-    const selectedItem = items.find((item) => item.type === sortBy);
-
+    const selectedItem = items[activeItem].name;
 
     const sortRef = useRef();
 
-    const onSelectItem = (name) => {
+    const onSelectItem = (index) => {
         setOpenedMenu(!openedMenu);
-        dispatch(setSortBy(name));
+        onSelectSortType(index);
+        setActiveItem(index);
     };
 
     const handleOutsideClick = (e) => {
@@ -50,15 +45,15 @@ const SortMenu = ({ items }) => {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={ () => setOpenedMenu(!openedMenu) }>{ selectedItem.name }</span>
+                <span onClick={ () => setOpenedMenu(!openedMenu) }>{ selectedItem }</span>
             </div>
             { openedMenu && <div className="sort__popup">
                 <ul>
                     { items && items.map((option, index) =>
                         <li
                             key={ `${ option.type }_${ index }` }
-                            className={ sortBy === option.type ? 'active' : '' }
-                            onClick={ () => onSelectItem(option.type) }>
+                            className={ activeItem === index ? 'active' : '' }
+                            onClick={ () => onSelectItem(index) }>
                             { option.name }
                         </li>
                     ) }
@@ -66,8 +61,6 @@ const SortMenu = ({ items }) => {
             </div> }
         </div>
     );
-};
-
-export default SortMenu;
+});
 
 

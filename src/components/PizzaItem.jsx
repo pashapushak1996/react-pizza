@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-
-const PizzaItem = ({ id, onSelectItem, name, imageUrl, types, price, sizes }) => {
+export const PizzaItem = ({ id, onSelectItem, name, imageUrl, types, price, sizes }) => {
 
     const [count, setCount] = useState(1);
     const pizzaTypes = ['тонкое', 'традиционное'];
@@ -83,8 +82,5 @@ PizzaItem.propTypes = {
     types: PropTypes.array.isRequired,
     price: PropTypes.number.isRequired,
     sizes: PropTypes.array.isRequired
-}
-
-export default PizzaItem;
-
+};
 

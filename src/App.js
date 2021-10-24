@@ -1,35 +1,37 @@
 import { Route, Switch } from "react-router-dom";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { setPizzas } from "./redux";
+import { useEffect } from "react";
 
 import { Header } from "./components";
-import Cart from "./pages/Cart";
-import Home from "./pages/Home";
-import { setPizzas } from "./redux";
+import { Cart, Home } from "./pages";
 
 function App() {
     const dispatch = useDispatch();
+    const sortBy = useSelector(({ filters }) => filters.sortBy);
+    //json server on localhost:3001;
 
-    const { pizzas } = useSelector(({ pizzas }) => pizzas);
-
-    const fetchData = async () => {
-        const response = await fetch('http://localhost:3000/db.json');
-        const { pizzas } = await response.json();
-
-        dispatch(setPizzas(pizzas));
+    const fetchData = async (sortBy) => {
+        try {
+            const response = await fetch(`http://localhost:3001/pizzas?_order=asc&_sort=${ sortBy }`);
+            const pizzas = await response.json();
+            dispatch(setPizzas(pizzas));
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        fetchData(sortBy);
+    }, [sortBy]);
 
     return (
         <div className="wrapper">
             <Header/>
             <div className="content">
                 <Switch>
-                    <Route path={ '/cart' } render={ () => <Cart/> }/>
-                    <Route path={ '/' } render={ () => <Home items={ pizzas }/> }/>
+                    <Route path={ '/cart' } component={ Cart }/>
+                    <Route path={ '/' } component={ Home }/>
                 </Switch>
             </div>
         </div>

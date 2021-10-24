@@ -1,6 +1,6 @@
 import classNames from "classnames";
 
-const Button = ({ className, children, outline }) => {
+export const Button = ({ className, children, outline }) => {
 
     const classes = classNames('button', className);
 
@@ -11,6 +11,6 @@ const Button = ({ className, children, outline }) => {
     );
 };
 
-export default Button;
+
 
 

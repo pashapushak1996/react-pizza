@@ -1,9 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
-const CartItem = ({ count, name, imageUrl, type, size,price }) => {
-
-
+export const CartItem = ({ count, name, imageUrl, type, size,price }) => {
     return (
         <div className="cart__item">
             <div className="cart__item-img">
@@ -71,8 +69,6 @@ CartItem.propTypes = {
     price: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     size: PropTypes.number.isRequired
-}
-
-export default CartItem;
+};
 
 
