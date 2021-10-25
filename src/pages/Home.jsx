@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Categories, PizzaItem, SortMenu } from "../components";
 import { addCartItem, setCategory, setSortBy } from "../redux";
+import { Loader } from "../components/Loader";
 
 const categoriesList = [
     'Все',
@@ -22,10 +23,10 @@ const sortList = [
 export const Home = () => {
     const dispatch = useDispatch();
 
-    const { items, activeCategory } = useSelector(({ pizzas, filters }) => (
+    const { items, isLoading } = useSelector(({ pizzas, filters }) => (
         {
             items: pizzas.items,
-            activeCategory: filters.activeCategory
+            isLoading: pizzas.isLoading
         }
     ));
 
@@ -51,11 +52,8 @@ export const Home = () => {
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
-                { items.filter((item) =>
-                    !activeCategory
-                        ? item
-                        : item.category === activeCategory)
-                    .map((obj) =>
+                { items.map((obj) =>
+                    isLoading ? <Loader/> :
                         <PizzaItem
                             onSelectItem={ (item) => dispatch(addCartItem(item)) }
                             key={ obj.id } { ...obj }/>) }

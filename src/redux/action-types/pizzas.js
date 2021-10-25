@@ -1,5 +1,7 @@
 const SET_PIZZAS = 'SET_PIZZAS';
+const SET_IS_LOADING = 'SET_IS_LOADING';
 
 export {
-    SET_PIZZAS
+    SET_PIZZAS,
+    SET_IS_LOADING
 }

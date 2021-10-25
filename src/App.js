@@ -1,6 +1,6 @@
 import { Route, Switch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setPizzas } from "./redux";
+import { fetchPizzas } from "./redux";
 import { useEffect } from "react";
 
 import { Header } from "./components";
@@ -8,22 +8,17 @@ import { Cart, Home } from "./pages";
 
 function App() {
     const dispatch = useDispatch();
-    const sortBy = useSelector(({ filters }) => filters.sortBy);
+    const { sortBy, activeCategory } = useSelector(({ filters }) => filters);
     //json server on localhost:3001;
+    //Todo Додати загрузку в редакс
+    // Todo add thunk middleware
+    //Todo add categoriesFilter
 
-    const fetchData = async (sortBy) => {
-        try {
-            const response = await fetch(`http://localhost:3001/pizzas?_order=asc&_sort=${ sortBy }`);
-            const pizzas = await response.json();
-            dispatch(setPizzas(pizzas));
-        } catch (e) {
-            console.log(e);
-        }
-    };
 
     useEffect(() => {
-        fetchData(sortBy);
-    }, [sortBy]);
+        dispatch(fetchPizzas(sortBy, activeCategory));
+        console.log(activeCategory)
+    }, [sortBy, activeCategory]);
 
     return (
         <div className="wrapper">
