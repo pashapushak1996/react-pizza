@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { Button } from "../Button";
 
-export const PizzaItem = ({ id, onAddCartItem, name, imageUrl, types, price, sizes }) => {
+export const PizzaItem = ({ cartItemCount, id, onAddCartItem, name, imageUrl, types, price, sizes }) => {
     const pizzaTypes = ['тонкое', 'традиционное'];
     const pizzaSizes = [26, 30, 40];
 
@@ -68,7 +68,7 @@ export const PizzaItem = ({ id, onAddCartItem, name, imageUrl, types, price, siz
                         />
                     </svg>
                     <span>Добавить</span>
-                    <i>4</i>
+                    <i>{ cartItemCount }</i>
                 </Button>
             </div>
         </div>

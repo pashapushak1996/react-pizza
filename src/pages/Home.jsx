@@ -23,6 +23,7 @@ export const Home = () => {
     const dispatch = useDispatch();
 
     const { isLoading, items } = useSelector(({ pizzas }) => pizzas);
+    const { cartItems } = useSelector(({ cart }) => cart);
     const { category, sortBy } = useSelector(({ filters }) => filters);
 
 
@@ -37,6 +38,10 @@ export const Home = () => {
     const onSelectCategory = React.useCallback((categoryIndex) => {
         dispatch(setCategory(categoryIndex));
     }, []);
+
+    const handleOnAddCartItem = (item) => {
+        dispatch(addCartItem(item))
+    };
 
     return (
         <div className="container">
@@ -58,7 +63,8 @@ export const Home = () => {
                         .map((_, index) => <ItemLoader key={ index }/>)
                     : items.map((obj) =>
                         <PizzaItem
-                            onAddCartItem={ (item) => dispatch(addCartItem(item)) }
+                            cartItemCount={ cartItems.find((item) => item.id === obj.id)?.count || 0 }
+                            onAddCartItem={ handleOnAddCartItem }
                             key={ obj.id }
                             { ...obj }/>) }
             </div>
