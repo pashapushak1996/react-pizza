@@ -4,6 +4,7 @@ import { Header } from "./components";
 import { Cart, Home } from "./pages";
 
 function App() {
+    //Todo Зробити сортування по возрастанию и по убиванию
     return (
         <div className="wrapper">
             <Header/>

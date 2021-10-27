@@ -1,11 +1,11 @@
 import classNames from "classnames";
 
-export const Button = ({ className, children, outline }) => {
+export const Button = ({ onClick, className, children, outline }) => {
 
-    const classes = classNames('button', className);
+    const classes = classNames('button', className, { 'button--outline': outline && 'button--outline' });
 
     return (
-        <button className={ classes }>
+        <button onClick={ onClick } className={ classes }>
             { children }
         </button>
     );

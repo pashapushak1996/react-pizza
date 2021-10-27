@@ -4,7 +4,6 @@ import { pizzaService } from '../../services';
 const fetchPizzas = (sortBy, activeCategory) => async (dispatch) => {
     try {
         dispatch(setIsLoading(true));
-
         const pizzas = await pizzaService.getAllPizzas(sortBy, activeCategory);
 
         dispatch(setPizzas(pizzas));

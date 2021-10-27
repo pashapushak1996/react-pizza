@@ -2,7 +2,10 @@ import { SET_CATEGORY, SET_SORT_BY } from "../action-types";
 
 const initialState = {
     category: 0,
-    sortBy: 'rating'
+    sortBy: {
+        type: 'rating',
+        order: 'desc'
+    },
 };
 
 export const filtersReducer = (state = initialState, action) => {

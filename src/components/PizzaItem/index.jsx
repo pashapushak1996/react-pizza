@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { Button } from "../Button";
 
-export const PizzaItem = ({ id, onSelectItem, name, imageUrl, types, price, sizes }) => {
-
-    const [count, setCount] = useState(1);
+export const PizzaItem = ({ id, onAddCartItem, name, imageUrl, types, price, sizes }) => {
     const pizzaTypes = ['тонкое', 'традиционное'];
     const pizzaSizes = [26, 30, 40];
 
@@ -12,16 +11,16 @@ export const PizzaItem = ({ id, onSelectItem, name, imageUrl, types, price, size
     const [activeType, setActiveType] = useState(types[0]);
 
     const onClickAdd = () => {
-        setCount(prevState => ++prevState);
-        onSelectItem({
+        const obj = {
             id,
             name,
             imageUrl,
             price,
             size: activeSize,
             type: pizzaTypes[activeType],
-            count
-        })
+        };
+
+        onAddCartItem(obj);
     };
 
 
@@ -55,7 +54,7 @@ export const PizzaItem = ({ id, onSelectItem, name, imageUrl, types, price, size
             </div>
             <div className="pizza-block__bottom">
                 <div className="pizza-block__price">от { price } ₽</div>
-                <div onClick={ onClickAdd } className="button button--outline button--add">
+                <Button className="button--add" onClick={ onClickAdd } outline>
                     <svg
                         width="12"
                         height="12"
@@ -69,8 +68,8 @@ export const PizzaItem = ({ id, onSelectItem, name, imageUrl, types, price, size
                         />
                     </svg>
                     <span>Добавить</span>
-                    <i>{ count }</i>
-                </div>
+                    <i>4</i>
+                </Button>
             </div>
         </div>
     );
@@ -81,6 +80,7 @@ PizzaItem.propTypes = {
     imageUrl: PropTypes.string.isRequired,
     types: PropTypes.arrayOf(PropTypes.number),
     price: PropTypes.number.isRequired,
-    sizes: PropTypes.arrayOf(PropTypes.number)
+    sizes: PropTypes.arrayOf(PropTypes.number),
+    onAddCartItem: PropTypes.func
 };
 

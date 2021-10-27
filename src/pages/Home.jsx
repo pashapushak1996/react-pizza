@@ -14,9 +14,9 @@ const categoriesList = [
 ];
 
 const sortList = [
-    { name: 'популярности', type: 'rating' },
-    { name: 'цене', type: 'price' },
-    { name: 'алфавиту', type: 'alphabet' }
+    { name: 'популярности', type: 'rating', order: 'desc' },
+    { name: 'цене', type: 'price', order: 'desc' },
+    { name: 'алфавиту', type: 'name', order: 'asc' }
 ];
 
 export const Home = () => {
@@ -58,8 +58,9 @@ export const Home = () => {
                         .map((_, index) => <ItemLoader key={ index }/>)
                     : items.map((obj) =>
                         <PizzaItem
-                            onSelectItem={ (item) => dispatch(addCartItem(item)) }
-                            key={ obj.id } { ...obj }/>) }
+                            onAddCartItem={ (item) => dispatch(addCartItem(item)) }
+                            key={ obj.id }
+                            { ...obj }/>) }
             </div>
         </div>
     );

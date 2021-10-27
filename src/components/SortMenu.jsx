@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 export const SortMenu = React.memo(({ items, onSelectSortType, activeSortType }) => {
     const [openedMenu, setOpenedMenu] = useState(false);
 
-    const selectedItem = items.find(({ type }) => activeSortType === type).name;
+    const selectedItem = items.find(({ type }) => activeSortType.type === type).name;
 
     const sortRef = useRef();
 
-    const onSelectItem = (index) => {
+    const onSelectItem = (sortBy) => {
         setOpenedMenu(!openedMenu);
-        onSelectSortType(index);
+        onSelectSortType(sortBy);
     };
 
     const handleOutsideClick = (e) => {
@@ -50,8 +50,8 @@ export const SortMenu = React.memo(({ items, onSelectSortType, activeSortType })
                     { items && items.map((option, index) =>
                         <li
                             key={ `${ option.type }_${ index }` }
-                            className={ option.type === activeSortType ? 'active' : '' }
-                            onClick={ () => onSelectItem(option.type) }>
+                            className={ option.type === activeSortType.type ? 'active' : '' }
+                            onClick={ () => onSelectItem(option) }>
                             { option.name }
                         </li>
                     ) }
@@ -64,7 +64,7 @@ export const SortMenu = React.memo(({ items, onSelectSortType, activeSortType })
 SortMenu.propTypes = {
     items: PropTypes.arrayOf(PropTypes.object),
     onSelectSortType: PropTypes.func,
-    activeSortType: PropTypes.string
+    activeSortType: PropTypes.object
 };
 
 SortMenu.defaultProps = {
