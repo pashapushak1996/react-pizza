@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 
-import { Categories, PizzaItem, SortMenu } from "../components";
-import { addCartItem, setCategory, setSortBy } from "../redux";
-import { Loader } from "../components/Loader";
+import { Categories, PizzaItem, SortMenu, ItemLoader } from "../components";
+import { addCartItem, fetchPizzas, setCategory, setSortBy } from "../redux";
 
 const categoriesList = [
     'Все',
@@ -23,16 +22,15 @@ const sortList = [
 export const Home = () => {
     const dispatch = useDispatch();
 
-    const { items, isLoading } = useSelector(({ pizzas, filters }) => (
-        {
-            items: pizzas.items,
-            isLoading: pizzas.isLoading
-        }
-    ));
+    const { isLoading, items } = useSelector(({ pizzas }) => pizzas);
+    const { category, sortBy } = useSelector(({ filters }) => filters);
 
-    const onSelectSortType = React.useCallback((index) => {
-        const sortBy = sortList[index].type;
 
+    useEffect(() => {
+        dispatch(fetchPizzas(sortBy, category));
+    }, [sortBy, category]);
+
+    const onSelectSortType = React.useCallback((sortBy) => {
         dispatch(setSortBy(sortBy));
     }, []);
 
@@ -44,16 +42,21 @@ export const Home = () => {
         <div className="container">
             <div className="content__top">
                 <Categories
+                    activeCategory={ category }
                     onSelectCategory={ onSelectCategory }
                     items={ categoriesList }/>
                 <SortMenu
+                    activeSortType={ sortBy }
                     onSelectSortType={ onSelectSortType }
                     items={ sortList }/>
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
-                { items.map((obj) =>
-                    isLoading ? <Loader/> :
+                { isLoading
+                    ? Array(9)
+                        .fill(0)
+                        .map((_, index) => <ItemLoader key={ index }/>)
+                    : items.map((obj) =>
                         <PizzaItem
                             onSelectItem={ (item) => dispatch(addCartItem(item)) }
                             key={ obj.id } { ...obj }/>) }

@@ -1,19 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
+import PropTypes from 'prop-types';
 
-export const SortMenu = React.memo(({ items, onSelectSortType }) => {
-
-    const [activeItem, setActiveItem] = useState(0);
-
+export const SortMenu = React.memo(({ items, onSelectSortType, activeSortType }) => {
     const [openedMenu, setOpenedMenu] = useState(false);
 
-    const selectedItem = items[activeItem].name;
+    const selectedItem = items.find(({ type }) => activeSortType === type).name;
 
     const sortRef = useRef();
 
     const onSelectItem = (index) => {
         setOpenedMenu(!openedMenu);
         onSelectSortType(index);
-        setActiveItem(index);
     };
 
     const handleOutsideClick = (e) => {
@@ -25,6 +22,7 @@ export const SortMenu = React.memo(({ items, onSelectSortType }) => {
 
     useEffect(() => {
         document.body.addEventListener('click', handleOutsideClick);
+
         return document.body.removeEventListener('click', handleOutsideClick);
     }, []);
 
@@ -52,8 +50,8 @@ export const SortMenu = React.memo(({ items, onSelectSortType }) => {
                     { items && items.map((option, index) =>
                         <li
                             key={ `${ option.type }_${ index }` }
-                            className={ activeItem === index ? 'active' : '' }
-                            onClick={ () => onSelectItem(index) }>
+                            className={ option.type === activeSortType ? 'active' : '' }
+                            onClick={ () => onSelectItem(option.type) }>
                             { option.name }
                         </li>
                     ) }
@@ -62,5 +60,19 @@ export const SortMenu = React.memo(({ items, onSelectSortType }) => {
         </div>
     );
 });
+
+SortMenu.propTypes = {
+    items: PropTypes.arrayOf(PropTypes.object),
+    onSelectSortType: PropTypes.func,
+    activeSortType: PropTypes.string
+};
+
+SortMenu.defaultProps = {
+    items: [],
+    onSelectSortType: () => {
+        console.log('Here should be a function from props');
+    },
+    activeSortType: ''
+};
 
 

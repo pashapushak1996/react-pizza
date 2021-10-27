@@ -1,14 +1,12 @@
 import { SET_IS_LOADING } from "../action-types";
+import { pizzaService } from '../../services';
 
 const fetchPizzas = (sortBy, activeCategory) => async (dispatch) => {
     try {
         dispatch(setIsLoading(true));
-        const response = await fetch(
-            `http://localhost:3001/pizzas?_order=asc&_sort=${ sortBy }${
-                activeCategory && `&&category=${ activeCategory }`
-            }`
-        );
-        const pizzas = await response.json();
+
+        const pizzas = await pizzaService.getAllPizzas(sortBy, activeCategory);
+
         dispatch(setPizzas(pizzas));
     } catch (e) {
         console.log(e);

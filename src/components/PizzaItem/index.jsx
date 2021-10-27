@@ -79,8 +79,8 @@ export const PizzaItem = ({ id, onSelectItem, name, imageUrl, types, price, size
 PizzaItem.propTypes = {
     name: PropTypes.string.isRequired,
     imageUrl: PropTypes.string.isRequired,
-    types: PropTypes.array.isRequired,
+    types: PropTypes.arrayOf(PropTypes.number),
     price: PropTypes.number.isRequired,
-    sizes: PropTypes.array.isRequired
+    sizes: PropTypes.arrayOf(PropTypes.number)
 };
 
