@@ -26,7 +26,6 @@ export const Home = () => {
     const { cartItems } = useSelector(({ cart }) => cart);
     const { category, sortBy } = useSelector(({ filters }) => filters);
 
-
     useEffect(() => {
         dispatch(fetchPizzas(sortBy, category));
     }, [sortBy, category]);
@@ -63,7 +62,7 @@ export const Home = () => {
                         .map((_, index) => <ItemLoader key={ index }/>)
                     : items.map((obj) =>
                         <PizzaItem
-                            cartItemCount={ cartItems.find((item) => item.id === obj.id)?.count || 0 }
+                            cartItemCount={ cartItems[obj.id] && cartItems[obj.id].items.length }
                             onAddCartItem={ handleOnAddCartItem }
                             key={ obj.id }
                             { ...obj }/>) }

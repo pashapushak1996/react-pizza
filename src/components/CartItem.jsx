@@ -1,7 +1,26 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
-export const CartItem = ({ count, name, imageUrl, type, size,price }) => {
+export const CartItem = ({
+                             removeAllCartItemById,
+                             onClickRemove,
+                             onClickPlus,
+                             cartItems,
+                             id,
+                             name,
+                             imageUrl,
+                             type,
+                             size
+                         }) => {
+
+    const handleClickPlus = () => {
+        onClickPlus(cartItems[id].items[0]);
+    };
+
+    const handleClickMinus = () => {
+        onClickRemove(cartItems[id].items[0]);
+    };
+
     return (
         <div className="cart__item">
             <div className="cart__item-img">
@@ -12,11 +31,12 @@ export const CartItem = ({ count, name, imageUrl, type, size,price }) => {
                 />
             </div>
             <div className="cart__item-info">
-                <h3>{ name }</h3>
-                <p>{ type },{ size } см.</p>
+                <h3>{ name } </h3>
+                <p>{ type } тесто,{ size } см.</p>
             </div>
             <div className="cart__item-count">
-                <div className="button button--outline button--circle cart__item-count-minus">
+                <div onClick={ handleClickMinus }
+                     className="button button--outline button--circle cart__item-count-minus">
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -26,10 +46,10 @@ export const CartItem = ({ count, name, imageUrl, type, size,price }) => {
                             d="M5.75998 5.92001L3.83998 5.92001L0.959977 5.92001C0.429817 5.92001 -2.29533e-05 5.49017 -2.29301e-05 4.96001C-2.2907e-05 4.42985 0.429817 4.00001 0.959977 4.00001L3.83998 4L5.75998 4.00001L8.63998 4.00001C9.17014 4.00001 9.59998 4.42985 9.59998 4.96001C9.59998 5.49017 9.17014 5.92001 8.63998 5.92001L5.75998 5.92001Z"
                             fill="#EB5A1E"/>
                     </svg>
-
                 </div>
-                <b>{ count }</b>
-                <div className="button button--outline button--circle cart__item-count-plus">
+                <b>{ cartItems[id].items.length }</b>
+                <div onClick={ handleClickPlus }
+                     className="button button--outline button--circle cart__item-count-plus">
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -43,9 +63,9 @@ export const CartItem = ({ count, name, imageUrl, type, size,price }) => {
                 </div>
             </div>
             <div className="cart__item-price">
-                <b>{price} ₽</b>
+                <b>{ cartItems[id].totalPrice } ₽</b>
             </div>
-            <div className="cart__item-remove">
+            <div onClick={ removeAllCartItemById } className="cart__item-remove">
                 <div className="button button--outline button--circle">
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
@@ -66,7 +86,6 @@ export const CartItem = ({ count, name, imageUrl, type, size,price }) => {
 CartItem.propTypes = {
     name: PropTypes.string.isRequired,
     imageUrl: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     size: PropTypes.number.isRequired
 };

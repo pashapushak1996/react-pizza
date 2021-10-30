@@ -1,8 +1,25 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { CartItem } from "../components";
+import { addCartItem, setCartItems } from "../redux";
+import { REMOVE_ALL_CART_ITEM_BY_ID, REMOVE_CART_ITEM } from "../redux/action-types";
 
 export const Cart = () => {
-    const { cartItems } = useSelector(({ cart }) => cart);
-    console.log(cartItems);
+    const { cartItems, totalPrice, totalCount } = useSelector(({ cart }) => cart);
+    const dispatch = useDispatch();
+
+    const items = Object.keys(cartItems).map((itemId) => cartItems[itemId].items[0]);
+
+    const addItemToCart = (item) => {
+        dispatch(addCartItem(item));
+    };
+
+    const removeItemFromCart = (item) => {
+        dispatch({ type: REMOVE_CART_ITEM, payload: item });
+    };
+
+    const removeAllCartItemById = (id) => {
+        dispatch({ type: REMOVE_ALL_CART_ITEM_BY_ID, payload: id })
+    };
 
     return (
         <div className="container container--cart">
@@ -34,16 +51,21 @@ export const Cart = () => {
                             <path d="M11.6666 9.16667V14.1667" stroke="#B6B6B6" strokeWidth="1.2"
                                   strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
-
                         <span>Очистить корзину</span>
                     </div>
                 </div>
                 <div className="content__items">
+                    { items.map((item) => <CartItem
+                        removeAllCartItemById={ () => removeAllCartItemById(item.id) }
+                        onClickRemove={ removeItemFromCart }
+                        onClickPlus={ addItemToCart }
+                        cartItems={ cartItems }
+                        key={ item.id } { ...item }/>) }
                 </div>
                 <div className="cart__bottom">
                     <div className="cart__bottom-details">
-                        <span> Всего пицц: <b>266</b> </span>
-                        <span> Сумма заказа: <b>266 ₽</b> </span>
+                        <span> Всего пицц: <b>{ totalCount }</b> </span>
+                        <span> Сумма заказа: <b>{ totalPrice } ₽</b> </span>
                     </div>
                     <div className="cart__bottom-buttons">
                         <a href="/" className="button button--outline button--add go-back-btn">

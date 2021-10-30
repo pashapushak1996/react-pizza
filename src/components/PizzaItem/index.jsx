@@ -23,7 +23,6 @@ export const PizzaItem = ({ cartItemCount, id, onAddCartItem, name, imageUrl, ty
         onAddCartItem(obj);
     };
 
-
     return (
         <div className="pizza-block">
             <img
@@ -68,7 +67,7 @@ export const PizzaItem = ({ cartItemCount, id, onAddCartItem, name, imageUrl, ty
                         />
                     </svg>
                     <span>Добавить</span>
-                    <i>{ cartItemCount }</i>
+                    { cartItemCount && <i>{ cartItemCount }</i> }
                 </Button>
             </div>
         </div>
@@ -81,6 +80,7 @@ PizzaItem.propTypes = {
     types: PropTypes.arrayOf(PropTypes.number),
     price: PropTypes.number.isRequired,
     sizes: PropTypes.arrayOf(PropTypes.number),
-    onAddCartItem: PropTypes.func
+    onAddCartItem: PropTypes.func,
+    cartItemCount: PropTypes.number
 };
 

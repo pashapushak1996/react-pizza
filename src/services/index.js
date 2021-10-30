@@ -1,7 +1,7 @@
 export const pizzaService = {
     getAllPizzas: async (sortBy, activeCategory) => {
         const response = await fetch(
-            'http://localhost:3001/pizzas?' +
+            '/pizzas?' +
             (activeCategory ? `category=${ activeCategory }` : '')
             + `&_sort=${ sortBy.type }&_order=${ sortBy.order }`
         );
