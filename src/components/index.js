@@ -1,4 +1,5 @@
 export * from './Button';
+export * from './CartEmpty';
 export * from './CartItem';
 export * from './Categories';
 export * from './Header';

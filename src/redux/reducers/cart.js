@@ -1,4 +1,4 @@
-import { ADD_CART_ITEM, REMOVE_ALL_CART_ITEM_BY_ID, REMOVE_CART_ITEM, SET_CART_ITEMS } from "../action-types";
+import { ADD_CART_ITEM, CLEAR_CART, REMOVE_CART_ITEM } from "../action-types";
 
 const initialState = {
     cartItems: {},
@@ -8,54 +8,37 @@ const initialState = {
 
 const getTotalPrice = (arr) => arr.reduce((acc, curr) => acc + curr.price, 0);
 
-const getAllCartItems = (arr) =>
+const getAllCartItems = (obj) =>
     Object
-        .values(arr.cartItems)
+        .values(obj)
         .flatMap((item) => item.items);
 
 
 export const cartReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_CART_ITEMS:
-            return { ...state, cartItems: action.payload };
+        case CLEAR_CART:
+            return { ...state, cartItems: {}, totalPrice: 0, totalCount: 0 }
+
 
         case REMOVE_CART_ITEM: {
-            const cartItemLength = state.cartItems[action.payload.id].items.length;
+            const currentItems = { ...state.cartItems };
 
-            if (cartItemLength > 1) {
-                state.cartItems[action.payload.id].items.splice(0, 1);
-            }
+            const { currentTotalPrice, currentTotalCount } = Object.keys(currentItems)
+                .reduce((acc, key) => {
+                    if (key === action.payload.toString()) {
+                        acc.currentTotalPrice = currentItems[key].totalPrice;
+                        acc.currentTotalCount = currentItems[key].items.length;
+                    }
 
-            const newItems = {
-                ...state.cartItems,
-                [action.payload.id]: {
-                    items: state.cartItems[action.payload.id].items,
-                    totalPrice: getTotalPrice(state.cartItems[action.payload.id].items)
-                }
-            };
+                    return acc;
+                }, {});
 
-            const allCartItems = getAllCartItems(state.cartItems);
-
-            const totalPrice = getTotalPrice(allCartItems);
+            delete currentItems[action.payload];
 
             return {
-                ...state, cartItems: newItems,
-                totalCount: allCartItems.length,
-                totalPrice
-            };
-
-        }
-        case REMOVE_ALL_CART_ITEM_BY_ID: {
-            delete state.cartItems[action.payload];
-
-            const allCartItems = getAllCartItems(state.cartItems);
-
-            const totalPrice = getTotalPrice(allCartItems);
-
-            return {
-                ...state, cartItems: { ...state.cartItems },
-                totalCount: allCartItems.length,
-                totalPrice
+                ...state, cartItems: currentItems,
+                totalCount: state.totalCount - currentTotalCount,
+                totalPrice: state.totalPrice - currentTotalPrice
             }
         }
         case ADD_CART_ITEM: {
@@ -71,14 +54,14 @@ export const cartReducer = (state = initialState, action) => {
                 }
             };
 
-            const allCartItems = getAllCartItems(state.cartItems);
+            const allCartItems = getAllCartItems(newItems);
 
             const totalPrice = getTotalPrice(allCartItems);
 
             return {
                 ...state, cartItems: newItems,
                 totalCount: allCartItems.length,
-                totalPrice
+                totalPrice: totalPrice
             };
         }
         default:

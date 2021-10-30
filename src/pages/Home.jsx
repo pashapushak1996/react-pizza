@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 
-import { Categories, PizzaItem, SortMenu, ItemLoader } from "../components";
+import { Categories, ItemLoader, PizzaItem, SortMenu } from "../components";
 import { addCartItem, fetchPizzas, setCategory, setSortBy } from "../redux";
 
 const categoriesList = [

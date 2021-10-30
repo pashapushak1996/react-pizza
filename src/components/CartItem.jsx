@@ -1,24 +1,27 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import { Button } from "./Button";
 
-export const CartItem = ({
-                             removeAllCartItemById,
-                             onClickRemove,
-                             onClickPlus,
-                             cartItems,
-                             id,
-                             name,
-                             imageUrl,
-                             type,
-                             size
-                         }) => {
+export const CartItem = (props) => {
+
+    const {
+        id,
+        totalPrice,
+        itemCount,
+        onClickRemove,
+        onClickPlus,
+        name,
+        imageUrl,
+        type,
+        size
+    } = props;
 
     const handleClickPlus = () => {
-        onClickPlus(cartItems[id].items[0]);
+        onClickPlus();
     };
 
-    const handleClickMinus = () => {
-        onClickRemove(cartItems[id].items[0]);
+    const handleClickRemove = () => {
+        onClickRemove(id);
     };
 
     return (
@@ -35,8 +38,8 @@ export const CartItem = ({
                 <p>{ type } тесто,{ size } см.</p>
             </div>
             <div className="cart__item-count">
-                <div onClick={ handleClickMinus }
-                     className="button button--outline button--circle cart__item-count-minus">
+                <div
+                    className="button button--outline button--circle cart__item-count-minus">
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -47,9 +50,9 @@ export const CartItem = ({
                             fill="#EB5A1E"/>
                     </svg>
                 </div>
-                <b>{ cartItems[id].items.length }</b>
-                <div onClick={ handleClickPlus }
-                     className="button button--outline button--circle cart__item-count-plus">
+                <b>{ itemCount }</b>
+                <Button onClick={ handleClickPlus }
+                        className="button button--outline button--circle cart__item-count-plus">
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -60,13 +63,13 @@ export const CartItem = ({
                             fill="#EB5A1E"/>
                     </svg>
 
-                </div>
+                </Button>
             </div>
             <div className="cart__item-price">
-                <b>{ cartItems[id].totalPrice } ₽</b>
+                <b>{ totalPrice } ₽</b>
             </div>
-            <div onClick={ removeAllCartItemById } className="cart__item-remove">
-                <div className="button button--outline button--circle">
+            <div onClick={ handleClickRemove } className="cart__item-remove">
+                <Button className="button--circle" outline>
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -77,7 +80,7 @@ export const CartItem = ({
                             fill="#EB5A1E"/>
                     </svg>
 
-                </div>
+                </Button>
             </div>
         </div>
     );
