@@ -23,15 +23,8 @@ export const cartReducer = (state = initialState, action) => {
         case REMOVE_CART_ITEM: {
             const currentItems = { ...state.cartItems };
 
-            const { currentTotalPrice, currentTotalCount } = Object.keys(currentItems)
-                .reduce((acc, key) => {
-                    if (key === action.payload.toString()) {
-                        acc.currentTotalPrice = currentItems[key].totalPrice;
-                        acc.currentTotalCount = currentItems[key].items.length;
-                    }
-
-                    return acc;
-                }, {});
+            const currentTotalPrice = currentItems[action.payload].totalPrice;
+            const currentTotalCount = currentItems[action.payload].items.length;
 
             delete currentItems[action.payload];
 
@@ -54,14 +47,20 @@ export const cartReducer = (state = initialState, action) => {
                 }
             };
 
-            const allCartItems = getAllCartItems(newItems);
+            const totalCount = Object.keys(newItems).reduce(
+                (acc, key) => newItems[key].items.length + acc,
+                0,
+            );
 
-            const totalPrice = getTotalPrice(allCartItems);
+            const totalPrice = Object.keys(newItems).reduce(
+                (acc, key) => newItems[key].totalPrice + acc,
+                0,
+            );
 
             return {
                 ...state, cartItems: newItems,
-                totalCount: allCartItems.length,
-                totalPrice: totalPrice
+                totalCount,
+                totalPrice
             };
         }
         default:

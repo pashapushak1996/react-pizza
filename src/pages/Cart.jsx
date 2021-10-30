@@ -63,11 +63,16 @@ export const Cart = () => {
                     </div>
                     <div className="content__items">
                         { items.map((item) => <CartItem
+                            id={ item.id }
+                            name={ item.name }
+                            type={ item.type }
+                            imageUrl={ item.imageUrl }
+                            size={ item.size }
                             itemCount={ cartItems[item.id].items.length }
                             onClickRemove={ removeItemFromCart }
                             onClickPlus={ () => addItemToCart(item) }
                             totalPrice={ cartItems[item.id].totalPrice }
-                            key={ item.id } { ...item }/>) }
+                            key={ item.id }/>) }
                     </div>
                     <div className="cart__bottom">
                         <div className="cart__bottom-details">

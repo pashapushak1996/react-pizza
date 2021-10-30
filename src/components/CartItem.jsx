@@ -87,10 +87,15 @@ export const CartItem = (props) => {
 };
 
 CartItem.propTypes = {
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     imageUrl: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    size: PropTypes.number.isRequired
+    size: PropTypes.number.isRequired,
+    totalPrice: PropTypes.number.isRequired,
+    itemCount: PropTypes.number.isRequired,
+    onClickRemove: PropTypes.func.isRequired,
+    onClickPlus: PropTypes.func.isRequired,
 };
 
 
