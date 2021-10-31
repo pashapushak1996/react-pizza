@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { CartEmpty, CartItem } from "../components";
-import { addCartItem, clearCart, removeCartItem } from "../redux";
-import { Link } from "react-router-dom";
+import { addCartItem, clearCart, minusCartItem, removeCartItem } from "../redux";
 
 
 export const Cart = () => {
@@ -22,6 +22,14 @@ export const Cart = () => {
 
     const onClickClear = () => {
         dispatch(clearCart());
+    };
+
+    const onClickMinus = (id) => {
+        dispatch(minusCartItem(id));
+    };
+
+    const onClickSendOrder = () => {
+        console.log('Ваш заказ', cartItems);
     };
 
     return (
@@ -72,6 +80,7 @@ export const Cart = () => {
                             onClickRemove={ removeItemFromCart }
                             onClickPlus={ () => addItemToCart(item) }
                             totalPrice={ cartItems[item.id].totalPrice }
+                            onClickMinus={ onClickMinus }
                             key={ item.id }/>) }
                     </div>
                     <div className="cart__bottom">
@@ -89,7 +98,7 @@ export const Cart = () => {
 
                                 <span>Вернуться назад</span>
                             </Link>
-                            <div className="button pay-btn">
+                            <div onClick={ onClickSendOrder } className="button pay-btn">
                                 <span>Оплатить сейчас</span>
                             </div>
                         </div>

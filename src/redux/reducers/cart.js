@@ -1,4 +1,4 @@
-import { ADD_CART_ITEM, CLEAR_CART, REMOVE_CART_ITEM } from "../action-types";
+import { ADD_CART_ITEM, CLEAR_CART, MINUS_CART_ITEM, REMOVE_CART_ITEM } from "../action-types";
 
 const initialState = {
     cartItems: {},
@@ -7,11 +7,6 @@ const initialState = {
 };
 
 const getTotalPrice = (arr) => arr.reduce((acc, curr) => acc + curr.price, 0);
-
-const getAllCartItems = (obj) =>
-    Object
-        .values(obj)
-        .flatMap((item) => item.items);
 
 
 export const cartReducer = (state = initialState, action) => {
@@ -61,6 +56,31 @@ export const cartReducer = (state = initialState, action) => {
                 ...state, cartItems: newItems,
                 totalCount,
                 totalPrice
+            };
+        }
+
+        case  MINUS_CART_ITEM: {
+            const copyOfCartItems = { ...state.cartItems };
+
+            if (copyOfCartItems[action.payload].items.length > 1) {
+                copyOfCartItems[action.payload].items = copyOfCartItems[action.payload].items.slice(1);
+                copyOfCartItems[action.payload].totalPrice = getTotalPrice(copyOfCartItems[action.payload].items);
+            }
+
+            console.log(copyOfCartItems[action.payload]);
+
+            const totalCount = Object.keys(copyOfCartItems).reduce(
+                (acc, key) => copyOfCartItems[key].items.length + acc,
+                0,
+            );
+
+            const totalPrice = Object.keys(copyOfCartItems).reduce(
+                (acc, key) => copyOfCartItems[key].totalPrice + acc,
+                0,
+            );
+
+            return {
+                ...state, cartItems: { ...copyOfCartItems }, totalPrice, totalCount
             };
         }
         default:
